@@ -1,0 +1,35 @@
+{
+  "name": "@dativa-lv/lx-testkit",
+  "description": "LX/UI Testkit",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dativa-lv/lx-testkit/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dativa-lv/lx-testkit.git"
+  },
+  "homepage": "https://lx-ui.dev/",
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/components/index.js",
+    "./accessibility": "./src/accessibility/index.js"
+  },
+  "bin": {
+    "testkit-a11y": "./src/accessibility/cli/index.js"
+  },
+  "scripts": {
+    "test": "bun test",
+    "testkit-a11y": "node ./src/accessibility/cli/index.js"
+  },
+  "dependencies": {
+    "@axe-core/playwright": "^4.10.2",
+    "playwright": "^1.55.0"
+  },
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE"
+  ]
+}

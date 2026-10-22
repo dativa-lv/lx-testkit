@@ -1,0 +1,12 @@
+export { wcagCriteria, getCriterionByNumber } from './wcag/criteria.js';
+export { axeTagToCriterionNumber, axeTagsToCriterionNumbers } from './wcag/axeTagMapper.js';
+export { evaluateAxeResults, impactToLevel } from './wcag/evaluator.js';
+export { resolvePageUrl } from './config/resolveUrl.js';
+export { validateConfig } from './config/validateConfig.js';
+export { loadAccessibilityConfig } from './config/loadConfig.js';
+export { runAccessibilityChecks } from './runner/AccessibilityRunner.js';
+export { scanPageForViolations } from './scanner/AxeScanner.js';
+export { runCustomChecks } from './customChecks/index.js';
+export { AccessibilityReportBuilder } from './report/AccessibilityReportBuilder.js';
+export { writeReport } from './report/serializeReport.js';
+export { generateId } from './ids/generateId.js';
