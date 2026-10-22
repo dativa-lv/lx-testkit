@@ -11,6 +11,7 @@ export { DateTimeRangeComponent } from './DateTimeRangeComponent.js';
 export { DropDownMenuComponent } from './DropDownMenuComponent.js';
 export { DurationInputComponent } from './DurationInputComponent.js';
 export { ExpanderComponent } from './ExpanderComponent.js';
+export { FileUploaderComponent } from './FileUploaderComponent.js';
 export { IconComponent } from './IconComponent.js';
 export { InfoBoxComponent } from './InfoBoxComponent.js';
 export { InfoWrapperComponent } from './InfoWrapperComponent.js';

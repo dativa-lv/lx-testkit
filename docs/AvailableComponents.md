@@ -13,6 +13,7 @@ Components covered by the test utils:
 - `DropDownMenuComponent`
 - `DurationInputComponent`
 - `ExpanderComponent`
+- `FileUploaderComponent`
 - `IconComponent`
 - `InfoBoxComponent`
 - `InfoWrapperComponent`
@@ -231,6 +232,43 @@ Use `ExpanderComponent` for LX expanders.
 - `getChevronIcon()` - returns the chevron icon **component** (`IconComponent`).
 - `getInvalidationMessage()` - returns the invalidation message **locator**.
 - `getBadge()` - returns the badge **component** (`BadgeComponent`).
+
+---
+
+### `FileUploaderComponent`
+
+Use `FileUploaderComponent` for LX file uploaders.
+
+**Component selector (data-component):** `lx-file-uploader`
+
+The details modal is rendered outside the component root, so `getDetailsModal()` looks it up at
+page level through the component id.
+
+**Available methods:**
+
+- `getRoot()` - returns the file uploader component root **locator**.
+- `getComponentId()` - returns the component id, read from `data-id` when the wrapper was created without one. _Async_.
+- `getInput()` - returns the hidden file input **locator** (for `setInputFiles`). Not available for `readOnly`. _Async_.
+- `getUploadButton()` - returns the upload button **component** (`ButtonComponent`). Only for `draggable = false`. _Async_.
+- `getDropZone()` - returns the drop zone **locator**, which also opens the file chooser on click, Enter and Space. Only for `draggable = true`. _Async_.
+- `getItemsWrapper()` - returns the uploaded files list **locator**.
+- `getItems()` - returns a **locator** matching every uploaded file item.
+- `getItem({ id, n })` - returns one uploaded file item **wrapper** by file id or zero-based index. _Async_.
+  - `getRoot()` - returns the item root **locator**.
+  - `getName()` - returns the file name **locator**.
+  - `getMeta()` - returns the file meta **locator**:
+    - If `mode = 'default'` - one entry per value (size, extension, extra info).
+    - If `mode = 'compact'` - one joined text.
+  - `getRemoveButton()` - returns the remove button **component** (`ButtonComponent`).
+  - `getInfoButton()` - returns the details button **component** (`ButtonComponent`).
+  - `getDownloadButton()` - returns the download trigger **locator** (with `hasDownloadButton`).
+  - `getInvalidationMessage()` - returns the item invalidation message **locator**.
+- `getToolbar()` - returns the list toolbar **component** (`ToolbarComponent`), which holds the search when `hasSearch` is on.
+- `getEmptyState()` - returns the empty list state **locator**.
+- `getInvalidationMessage()` - returns the invalidation message **locator**.
+- `getDetailsModal()` - returns the file details modal **wrapper**. _Async_.
+  - `getRoot()` - returns the modal root **locator**.
+  - `getCloseButton()` - returns the modal close button **component** (`ButtonComponent`).
 
 ---
 
