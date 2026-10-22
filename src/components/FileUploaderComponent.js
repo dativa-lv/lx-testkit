@@ -24,12 +24,10 @@ export class FileUploaderComponent extends BaseComponent {
   }
 
   async getUploadButton() {
-    const { draggable, readOnly } = await this.getState();
+    const { readOnly } = await this.getState();
 
-    if (readOnly || draggable) {
-      throw new Error(
-        `Upload button is not available for draggable: ${draggable}, readOnly: ${readOnly} - use getDropZone() for draggable`
-      );
+    if (readOnly) {
+      throw new Error('Upload button is not available for readOnly: true');
     }
 
     return new ButtonComponent({
@@ -47,7 +45,7 @@ export class FileUploaderComponent extends BaseComponent {
       );
     }
 
-    return this.root.locator('[data-container="file-uploader-drop-zone"]');
+    return this.root.locator('.lx-draggable-drop-zone');
   }
 
   getItemsWrapper() {

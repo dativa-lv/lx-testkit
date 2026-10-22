@@ -249,8 +249,8 @@ page level through the component id.
 - `getRoot()` - returns the file uploader component root **locator**.
 - `getComponentId()` - returns the component id, read from `data-id` when the wrapper was created without one. _Async_.
 - `getInput()` - returns the hidden file input **locator** (for `setInputFiles`). Not available for `readOnly`. _Async_.
-- `getUploadButton()` - returns the upload button **component** (`ButtonComponent`). Only for `draggable = false`. _Async_.
-- `getDropZone()` - returns the drop zone **locator**, which also opens the file chooser on click, Enter and Space. Only for `draggable = true`. _Async_.
+- `getUploadButton()` - returns the upload button **component** (`ButtonComponent`), which opens the file chooser. _Async_.
+- `getDropZone()` - returns the drop zone **locator**, which receives the drag-and-drop events. It is not focusable, use `getUploadButton()` for click and keyboard interaction. _Async_.
 - `getItemsWrapper()` - returns the uploaded files list **locator**.
 - `getItems()` - returns a **locator** matching every uploaded file item.
 - `getItem({ id, n })` - returns one uploaded file item **wrapper** by file id or zero-based index. _Async_.
