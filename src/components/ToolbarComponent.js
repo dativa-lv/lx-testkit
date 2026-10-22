@@ -1,7 +1,7 @@
 import { BaseComponent } from './BaseComponent.js';
 import { ButtonComponent } from './ButtonComponent.js';
 import { ToggleComponent } from './ToggleComponent.js';
-import { TextInputComponent } from './TextInputComponent.js';
+import { AutoCompleteComponent } from './AutoCompleteComponent.js';
 
 export class ToolbarComponent extends BaseComponent {
   constructor({ page = null, parent = null, id = null } = {}) {
@@ -31,13 +31,16 @@ export class ToolbarComponent extends BaseComponent {
     }
 
     const root = this.root.locator(rootSelector);
+    const input = new AutoCompleteComponent({
+      page: this.page,
+      parent: root,
+      id: `${this.id}-search-input`,
+    });
 
     return {
       getRoot: () => root,
-      getInput: () => new TextInputComponent({ parent: root }),
-      getSearchButton: () => new ButtonComponent({ parent: root, id: `${this.id}-search-button` }),
-      getClearButton: () =>
-        new ButtonComponent({ parent: root, id: `${this.id}-search-clear-button` }),
+      getInput: () => input,
+      getClearButton: () => input.getClearButton(),
       getExpandButton: () =>
         new ButtonComponent({ parent: this.root, id: `${this.id}-search-toggle-button` }),
     };

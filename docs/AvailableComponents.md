@@ -535,9 +535,8 @@ Use `ToolbarComponent` for LX toolbars.
 - `getToggle(id)` - returns the toggle **component** (`ToggleComponent`).
 - `getSearchWrapper()` - returns search **wrapper** for the current toolbar search mode. _Async_.
   - `getRoot()` - returns the search wrapper root **locator**.
-  - `getInput()` - returns the text input **component** (`TextInputComponent`).
-  - `getSearchButton()` - returns the search button **component** (`ButtonComponent`) for server search side.
-  - `getClearButton()` - returns the clear button **component** (`ButtonComponent`).
+  - `getInput()` - returns the search field **component** (`AutoCompleteComponent`).
+  - `getClearButton()` - returns the search field clear button **component** (`ButtonComponent`).
   - `getExpandButton()` - returns the expand button **component** (`ButtonComponent`).
 
 ---

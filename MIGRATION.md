@@ -7,6 +7,40 @@ releases.
 Testkit versions track [LX/UI](https://github.com/dativa-lv/lx-ui) releases, because the locators
 follow LX/UI's markup. Upgrade both together.
 
+## 2.3.7 → 2.3.9
+
+### Breaking changes
+
+#### `ToolbarComponent`
+
+LX/UI toolbar search (`LxToolbar`, `LxList`, `LxDataGrid`) is now an `LxAutoComplete` with
+`kind="search"` instead of an `LxTextInput` with separate search and clear buttons.
+
+**Method changes** (on the wrapper returned by `getSearchWrapper()`)
+
+- `getInput()` — returns `AutoCompleteComponent` instead of `TextInputComponent`. Use its
+  `getInput()` for the input element.
+- `getSearchButton()` — removed, the separate search button no longer exists. Server side search runs
+  on Enter or by picking a suggestion.
+- `getClearButton()` — now returns the search field's own clear button, shown once a search value is
+  set.
+
+**Before:**
+
+```js
+const searchWrapper = await toolbar.getSearchWrapper();
+await searchWrapper.getInput().getRoot().fill('query');
+await searchWrapper.getSearchButton().getRoot().click();
+```
+
+**After:**
+
+```js
+const searchWrapper = await toolbar.getSearchWrapper();
+await searchWrapper.getInput().getInput().fill('query');
+await searchWrapper.getInput().getInput().press('Enter');
+```
+
 ## 2.3.5 → 2.3.7
 
 ### Breaking changes
