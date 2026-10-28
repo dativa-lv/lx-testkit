@@ -8,11 +8,11 @@ export class InfoBoxComponent extends BaseComponent {
   }
 
   getTitle() {
-    return this.root.locator('.lx-alert-header .lx-data');
+    return this.root.locator('.lx-primary');
   }
 
   getDescription() {
-    return this.root.locator('.lx-alert-description .lx-description');
+    return this.root.locator('.lx-secondary');
   }
 
   getIcon() {
