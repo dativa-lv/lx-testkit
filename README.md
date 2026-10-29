@@ -1,8 +1,30 @@
 <h1 align="center">lx/testkit</h1>
 
-![LX Testkit](/public/imgs/lx-testkit.png)
+<p align="center">
+ Reusable <strong>Playwright</strong> testing utilities for <a href="https://github.com/dativa-lv/lx-ui"><strong>LX/UI</strong></a> components, providing stable locators and predictable interactions that keep automated tests readable, reliable, and resilient to UI changes.
+</p>
+<p align="center">
+    Test behavior. Not implementation details.
+</p>
 
-Reusable Playwright component utils for LX UI that expose stable locators, so tests stay readable and resilient as UI internals evolve.
+<p align="center">
+    <img alt="NPM Downloads" src="https://img.shields.io/npm/dw/%40dativa-lv%2Flx-testkit?color=green" />
+    <img alt="NPM Version" src="https://img.shields.io/npm/v/%40dativa-lv%2Flx-testkit?color=green" />
+    <img alt="NPM License" src="https://img.shields.io/npm/l/%40dativa-lv%2Flx-testkit?color=white" />
+    <a href="https://github.com/dativa-lv/lx-ui"><img alt="Powered by LX/UI" src="https://img.shields.io/badge/powered%20by-lx%2Fui-0960BC"/></a>
+</p>
+
+<p align="center">
+ <img src="https://img.shields.io/npm/v/%40dativa-lv%2Flx-ui?color=blue&label=%40dativa-lv%2Flx-ui" alt="LX/UI Version" />
+  <img src="https://img.shields.io/github/package-json/dependency-version/dativa-lv/lx-testkit/playwright?label=playwright"
+  alt="playwright" />
+    <img src="https://img.shields.io/github/package-json/dependency-version/dativa-lv/lx-testkit/%40axe-core%2Fplaywright?label=axe-core%2Fplaywright"
+  alt="axe-core/playwright version" />
+</p>
+
+
+
+![LX Testkit](/public/imgs/lx-testkit.png)
 
 ## Get
 
