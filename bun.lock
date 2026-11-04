@@ -8,6 +8,12 @@
         "@axe-core/playwright": "^4.10.2",
         "playwright": "^1.55.0",
       },
+      "peerDependencies": {
+        "@dativa-lv/lx-ui": "^2.3.11",
+      },
+      "optionalPeers": [
+        "@dativa-lv/lx-ui",
+      ],
     },
   },
   "packages": {
