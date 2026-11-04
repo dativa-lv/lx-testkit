@@ -4,6 +4,7 @@ Components covered by the test utils:
 
 - `AppendableListComponent`
 - `AutoCompleteComponent`
+- `BadgeComponent`
 - `ButtonComponent`
 - `CardComponent`
 - `CheckboxComponent`
@@ -65,6 +66,20 @@ Use `AutoCompleteComponent` for LX auto completes.
 - `getReadOnlyData()` - returns the read-only data **locator**. _Async_.
 - `getClearButton()` - returns the clear button **component** (`ButtonComponent`).
 - `getPopper()` - returns the popper **locator**.
+
+---
+
+### `BadgeComponent`
+
+Use `BadgeComponent` for LX badges.
+
+**Component selector (data-component):** `lx-badge`
+
+**Available methods:**
+
+- `getRoot()` - returns the badge component root **locator**.
+- `getText()` - returns the badge text **locator**.
+- `getIcon()` - returns the badge icon **component** (`IconComponent`).
 
 ---
 
@@ -407,6 +422,23 @@ a clear error like `Filled track is not available for kind: stepper, readOnly: f
 
 ---
 
+### `RadioButtonComponent`
+
+Use `RadioButtonComponent` for LX radio buttons.
+
+**Component selector (data-component):** `lx-radio-button`
+
+**Available methods:**
+
+- `getRoot()` - returns the radio button component root **locator**.
+- `getInput()` - returns the underlying radio input **locator**.
+- `getLabelWrapper()` - returns the radio button label wrapper **locator**.
+- `getLabel()` - returns the visible radio button label **locator**.
+- `getAppearance()` - returns the visual radio button control **locator**.
+- `getThumb()` - returns the radio button thumb **locator**.
+
+---
+
 ### `StateDisplayComponent`
 
 Use `StateDisplayComponent` for LX state displays.
@@ -440,22 +472,6 @@ Use `StepsComponent` for LX steps.
 - `getFilledSlider()` - returns the filled slider **locator**.
 - `getFullSlider()` - returns the full slider **locator**.
 
----
-
-### `RadioButtonComponent`
-
-Use `RadioButtonComponent` for LX radio buttons.
-
-**Component selector (data-component):** `lx-radio-button`
-
-**Available methods:**
-
-- `getRoot()` - returns the radio button component root **locator**.
-- `getInput()` - returns the underlying radio input **locator**.
-- `getLabelWrapper()` - returns the radio button label wrapper **locator**.
-- `getLabel()` - returns the visible radio button label **locator**.
-- `getAppearance()` - returns the visual radio button control **locator**.
-- `getThumb()` - returns the radio button thumb **locator**.
 
 ---
 
@@ -550,7 +566,7 @@ Use `ValuePickerComponent` for LX value pickers.
 **Available methods:**
 
 - `getRoot()` - returns the value picker component root **locator**.
-- `getItem({ id, n })` - returns one value picker item **wrapper** by item id or zero-based index. _Async_.
+- `getItem({ id, n })` - returns one value picker item **wrapper** by item id or zero-based index. Not available for `dropdown*` and `rotator*` variants, use `getDropDown()` / `getRotator()`. _Async_.
   - `getRoot()` - returns the item root **locator**.
   - `getContainer()` - returns a variant-specific item container:
     - If `variant = 'default'`, `variant = 'default-custom'`:
@@ -561,8 +577,55 @@ Use `ValuePickerComponent` for LX value pickers.
     - If `variant = 'tags'`, `variant = 'tags-custom'` - returns object with `getRoot()`.
     - If `variant = 'tiles'`, `variant = 'tiles-custom'` - returns object with `getRoot()`, `getHeader()`, `getName()`, `getIcon()`, `getDescription()`.
   - `getIcon()` - returns item icon **component** (`IconComponent`) for icon-capable variants (`horizontal*`, `indicator`, `tiles*`).
-- `getItemsWrapper()` - returns the items **wrapper**. _Async_.
+  - `getDescription()` - returns item description **locator** for `variant = 'default'` and `variant = 'tiles'` (custom variants render the description in the slot).
+- `getInvalidationMessage()` - returns the invalidation message **locator**.
+- `getHelperText()` - returns the inline helperText **locator** (`helperTextKind="label"`).
+- `getHelperIconWrapper()` - returns the helperText info wrapper **locator** (`helperTextKind="icon"`).
+- `getHelperIcon()` - returns the helperText info icon **component** (`IconComponent`) (`helperTextKind="icon"`).
+- `getItemsWrapper()` - returns the items **wrapper**. Not available for `dropdown*` and `rotator*` variants, use `getDropDown()` / `getRotator()`. _Async_.
   - `getRoot()` - returns the items wrapper root **locator**.
   - `getItem({ id, n })` - see `getItem({ id, n })` above (except this is _not async_).
 - `getToolbar()` - returns the toolbar **component** (`ToolbarComponent`) for supported variants (`default*`, `horizontal*`, `indicator`, `tags*`, `tiles*`). _Async_.
+- `getDropDown()` - returns the drop down for `dropdown*` variants. Not available for `readOnly`, use `getReadOnlyData()`. _Async_.
+  - If `hasSearch = true` - returns auto complete **component** (`AutoCompleteComponent`).
+  - If `hasSearch = false` - returns drop down **wrapper**:
+    - `getRoot()` - returns the combobox **locator** (carries `aria-expanded`).
+    - `getInputWrapper()` - returns the input wrapper **locator** (carries `lx-invalid` / `lx-disabled`).
+    - `getValue()` - returns the displayed value **locator** (joined names for `selectionKind = 'multiple'`).
+    - `getPlaceholder()` - returns the placeholder **locator**, rendered only while nothing is selected.
+    - `getChevronIcon()` - returns the chevron icon **component** (`IconComponent`).
+    - `getInvalidationIcon()` - returns the invalidation icon **component** (`IconComponent`).
+    - `getSelectedCount()` - returns the selected item count **locator**. Only for `selectionKind = 'multiple'`.
+    - `getClearButton()` - returns the clear selection button **component** (`ButtonComponent`). Only for `selectionKind = 'multiple'`.
+    - `getPopper()` - returns the open popper container **locator** inside `#poppers`.
+    - `getPanel()` - returns the open listbox **locator** (`role="listbox"`) inside `#poppers`.
+    - `getItems()` - returns a **locator** matching every option in the panel.
+    - `getItem({ id, n })` - returns one option **wrapper** by item id or zero-based index:
+      - `getRoot()` - returns the option root **locator** (carries `aria-selected`).
+      - `getLabel()` - returns the option label **locator**.
+      - `getCheckbox()` - returns the checkbox **component** (`CheckboxComponent`). Only for `selectionKind = 'multiple'`.
+      - `getCheckmarkIcon()` - returns the selected checkmark icon **component** (`IconComponent`). Only for `selectionKind = 'single'`.
+    - `getSelectAll()` - returns the select all **locator** (`hasSelectAll`). Only for `selectionKind = 'multiple'`.
+    - `getEmptyState()` - returns the empty list state **locator**.
+    - `open()` - opens the panel by clicking the combobox, if it is not open yet. _Async_.
+    - `close()` - closes the panel by clicking the combobox, if it is open. _Async_.
+- `getRotator()` - returns the rotator **wrapper** for `rotator*` variants. Not available for `readOnly`, use `getReadOnlyData()`. _Async_.
+  - `getId()` - returns the value picker id (rotator items have ids `${id}-item-${itemId}`).
+  - `getRoot()` - returns the rotator root **locator**.
+  - `getMenu()` - returns the drop down menu **component** (`DropDownMenuComponent`) opened by right click.
+  - `getInputWrapper()` - returns the input wrapper **locator** (carries `lx-invalid` / `lx-disabled`, `aria-invalid`, `aria-disabled`).
+  - `getInputArea()` - returns the rotator set **locator** (`.lx-rotator-set`).
+  - `getItems()` - returns a **locator** matching the previous, current and next rotator items.
+  - `getCurrentItem()` - returns the visible (current) rotator item **locator**.
+  - `getRotatorIcon()` - returns the rotator icon **component** (`IconComponent`).
+  - `getPopper()` - returns the open menu popper container **locator** inside `#poppers`.
+  - `getPanel()` - returns the open menu panel **locator** inside `#poppers`.
+  - `getMenuItems()` - returns a **locator** matching every item button in the menu panel.
+  - `getMenuItem({ id, n })` - returns one menu item button **component** (`ButtonComponent`) by item id or zero-based index (carries `lx-active` / `aria-pressed` when selected).
+  - `rotate()` - selects the next item by clicking the rotator. _Async_.
+  - `open()` - opens the menu by right clicking the rotator, if it is not open yet. _Async_.
+  - `close()` - closes the menu by right clicking the rotator, if it is open. _Async_.
 - `getReadOnlyData()` - returns the read-only data **locator**. _Async_.
+
+The drop down and rotator menu panels are rendered only while open and are teleported to
+`#poppers`, so call `open()` before using the panel methods.

@@ -69,6 +69,29 @@ export class ValuePickerItem {
     }
   }
 
+  getDescription() {
+    switch (this.variant) {
+      case 'default':
+        return this.root.locator('.lx-value-picker-default-item-description');
+      case 'tiles':
+        return this.root.locator('.lx-value-picker-description');
+      case 'default-custom':
+      case 'horizontal':
+      case 'horizontal-custom':
+      case 'indicator':
+      case 'tags':
+      case 'tags-custom':
+      case 'tiles-custom':
+      case 'dropdown':
+      case 'dropdown-custom':
+      case 'rotator':
+      case 'rotator-custom':
+        throw new Error(`Description is not available for variant: ${this.variant}`);
+      default:
+        throw new Error(`Unknown variant: ${this.variant}`);
+    }
+  }
+
   getIcon() {
     switch (this.variant) {
       case 'horizontal':

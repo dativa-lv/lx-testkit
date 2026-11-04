@@ -1,21 +1,39 @@
 import { BaseComponent } from './BaseComponent.js';
+import { IconComponent } from './IconComponent.js';
 import { ValuePickerItemsWrapper } from './helpers/ValuePickerItemsWrapper.js';
 import { ValuePickerItem } from './helpers/ValuePickerItem.js';
 import { ToolbarComponent } from './ToolbarComponent.js';
+import { AutoCompleteComponent } from './AutoCompleteComponent.js';
+import { ValuePickerDropDown } from './helpers/ValuePickerDropDown.js';
+import { ValuePickerRotator } from './helpers/ValuePickerRotator.js';
 
 export class ValuePickerComponent extends BaseComponent {
   constructor({ page = null, parent = null, id = null } = {}) {
     super({ component: 'lx-value-picker', page, parent, id });
   }
 
+  // Dropdown and rotator items live in their own panels, so point to the variant specific getters
+  #requireInlineItems(name, variant) {
+    switch (variant) {
+      case 'dropdown':
+      case 'dropdown-custom':
+        throw new Error(`${name} is not available for variant: ${variant}, use getDropDown()`);
+      case 'rotator':
+      case 'rotator-custom':
+        throw new Error(`${name} is not available for variant: ${variant}, use getRotator()`);
+    }
+  }
+
   async getItemsWrapper() {
     const { variant, selectionKind } = await this.getState();
+    this.#requireInlineItems('Items wrapper', variant);
 
     return new ValuePickerItemsWrapper({ parentRoot: this.root, variant, selectionKind });
   }
 
   async getItem({ id = null, n = null } = {}) {
     const { variant, selectionKind } = await this.getState();
+    this.#requireInlineItems('Item', variant);
 
     return new ValuePickerItem({ parentRoot: this.root, variant, selectionKind, id, n });
   }
@@ -31,6 +49,23 @@ export class ValuePickerComponent extends BaseComponent {
       default:
         throw new Error(`Unknown readOnlyRenderType: ${readOnlyRenderType}`);
     }
+  }
+
+  getInvalidationMessage() {
+    return this.root.locator('.lx-invalidation-message');
+  }
+
+  getHelperText() {
+    return this.root.locator('.lx-helper-text');
+  }
+
+  // Input-like variants (dropdown, rotator) render the icon inside the input, others below items
+  getHelperIconWrapper() {
+    return this.root.locator('.lx-input-helper-wrapper, .lx-helper-info-row');
+  }
+
+  getHelperIcon() {
+    return new IconComponent({ parent: this.getHelperIconWrapper() });
   }
 
   async getToolbar() {
@@ -57,15 +92,43 @@ export class ValuePickerComponent extends BaseComponent {
     }
   }
 
-  // TODO: implement
-  // eslint-disable-next-line class-methods-use-this
-  getDropDown() {
-    return null;
+  async getDropDown() {
+    const { variant, selectionKind, hasSearch, readOnly } = await this.getState();
+
+    if (variant !== 'dropdown' && variant !== 'dropdown-custom') {
+      throw new Error(`DropDown is not available for variant: ${variant}`);
+    }
+
+    if (readOnly) {
+      throw new Error('DropDown is not available for readOnly: true, use getReadOnlyData()');
+    }
+
+    const id = this.id ?? (await this.root.getAttribute('data-id'));
+
+    if (hasSearch) {
+      return new AutoCompleteComponent({ parent: this.root, id });
+    }
+
+    return new ValuePickerDropDown({ parentRoot: this.root, id, selectionKind });
   }
 
-  // TODO: implement
-  // eslint-disable-next-line class-methods-use-this
-  getRotator() {
-    return null;
+  async getRotator() {
+    const { variant, readOnly } = await this.getState();
+
+    if (variant !== 'rotator' && variant !== 'rotator-custom') {
+      throw new Error(`Rotator is not available for variant: ${variant}`);
+    }
+
+    if (readOnly) {
+      throw new Error('Rotator is not available for readOnly: true, use getReadOnlyData()');
+    }
+
+    const id = this.id ?? (await this.root.getAttribute('data-id'));
+    // The rotator does not pass an id to its drop down menu, so read the generated one
+    const menuId = await this.root
+      .locator('[data-component="lx-drop-down-menu"]')
+      .getAttribute('data-id');
+
+    return new ValuePickerRotator({ parentRoot: this.root, id, menuId });
   }
 }
