@@ -163,11 +163,23 @@ Use `DateTimePickerComponent` for LX date time pickers.
 - `getInputWrapper()` - returns the input wrapper **locator**.
 - `getDateTimePickerWrapper()` - returns the date time picker wrapper **locator**.
 - `getCalendarContainer()` - returns the open calendar container **locator**.
-- `getMonthLayoutButton()` - returns the calendar month layout toggle button **locator**.
+- `getCalendarPanel()` - returns the open fullscreen calendar panel **locator**.
+- `getMonthLayoutButton()` - returns the calendar month layout toggle **component** (`ButtonComponent`).
+- `getYearLayoutButton()` - returns the calendar year layout toggle **component** (`ButtonComponent`).
 - `getSelectedDay()` - returns the selected day **locator**.
 - `getCalendarDayButton()` - returns the first calendar day button **locator**.
 - `getInvalidationMessage()` - returns the invalidation message **locator**.
+- `getCalendarHeader()` - returns the open calendar header **locator**.
+- `getCalendarFooter()` - returns the open calendar footer **locator**.
+- `getCalendarWeekday()` - returns the first calendar weekday label **locator**.
+- `getCalendarDayWrapper()` - returns the first calendar day wrapper **locator**.
+- `getCalendarDay()` - returns the first regular calendar day **locator** (a day in the displayed
+  month that is not selected).
+- `getTimePickerContainer()` - returns the calendar time picker container **locator**.
+- `getTimeList()` - returns the calendar time list viewport **locator**.
+- `getActiveTimeItem()` - returns the active time list item **locator**.
 - `openCalendar()` - opens the calendar by pressing `ArrowDown` on the input. _Async_.
+- `getMobileTimeButton()` - returns the mobile time selection toggle button **component** (`ButtonComponent`).
 
 ---
 

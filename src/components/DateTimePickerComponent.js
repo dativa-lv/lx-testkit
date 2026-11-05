@@ -1,4 +1,5 @@
 import { BaseComponent } from './BaseComponent.js';
+import { ButtonComponent } from './ButtonComponent.js';
 
 export class DateTimePickerComponent extends BaseComponent {
   constructor({ page = null, parent = null, id = null } = {}) {
@@ -27,10 +28,24 @@ export class DateTimePickerComponent extends BaseComponent {
       .first();
   }
 
-  getMonthLayoutButton() {
+  getCalendarPanel() {
     return this.page
-      .locator('.lx-dropdown-panel-wrapper.date-picker-type .lx-calendar-months-select-button')
+      .locator('.popper.fullscreen-popper .lx-dropdown-panel')
       .first();
+  }
+
+  getMonthLayoutButton() {
+    return new ButtonComponent({
+      parent: this.getCalendarContainer(),
+      id: `${this.id}-months-select-button`,
+    });
+  }
+
+  getYearLayoutButton() {
+    return new ButtonComponent({
+      parent: this.getCalendarContainer(),
+      id: `${this.id}-years-select-button`,
+    });
   }
 
   getSelectedDay() {
@@ -43,5 +58,46 @@ export class DateTimePickerComponent extends BaseComponent {
 
   getInvalidationMessage() {
     return this.root.locator('.lx-invalidation-message').first();
+  }
+
+  getCalendarHeader() {
+    return this.getCalendarContainer().locator('.lx-calendar-header').first();
+  }
+
+  getCalendarFooter() {
+    return this.getCalendarContainer().locator('.lx-calendar-footer').first();
+  }
+
+  getCalendarWeekday() {
+    return this.getCalendarContainer().locator('.lx-calendar-weekday').first();
+  }
+
+  getCalendarDayWrapper() {
+    return this.getCalendarContainer().locator('.lx-calendar-day-wrapper').first();
+  }
+
+  getCalendarDay() {
+    return this.getCalendarContainer()
+      .locator('.lx-calendar-day:not(.lx-other-month):not(.lx-selected-day)')
+      .first();
+  }
+
+  getTimePickerContainer() {
+    return this.getCalendarContainer().locator('.lx-time-picker-container').first();
+  }
+
+  getTimeList() {
+    return this.getCalendarContainer().locator('.lx-time-list-viewport').first();
+  }
+
+  getActiveTimeItem() {
+    return this.getCalendarContainer().locator('.lx-time-list-item.lx-active').first();
+  }
+
+  getMobileTimeButton() {
+    return new ButtonComponent({
+      parent: this.getCalendarContainer(),
+      id: `${this.id}-mobile-time-selection-button`,
+    });
   }
 }
