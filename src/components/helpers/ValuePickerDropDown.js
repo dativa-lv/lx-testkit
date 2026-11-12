@@ -1,6 +1,7 @@
 import { ButtonComponent } from '../ButtonComponent.js';
 import { CheckboxComponent } from '../CheckboxComponent.js';
 import { IconComponent } from '../IconComponent.js';
+import { isTouchOnly } from './touch.js';
 
 class ValuePickerDropDownItem {
   constructor({ panel, pickerId, selectionKind, id = null, n = null }) {
@@ -134,7 +135,7 @@ export class ValuePickerDropDown {
 
   async open() {
     if ((await this.root.getAttribute('aria-expanded')) !== 'true') {
-      await this.root.click();
+      await this.#toggle();
     }
 
     await this.getPanel().waitFor();
@@ -142,9 +143,21 @@ export class ValuePickerDropDown {
 
   async close() {
     if ((await this.root.getAttribute('aria-expanded')) === 'true') {
-      await this.root.click();
+      await this.#toggle();
     }
 
     await this.getPanel().waitFor({ state: 'detached' });
+  }
+
+  async #toggle() {
+    if (!(await isTouchOnly(this.root.page()))) {
+      await this.root.click();
+      return;
+    }
+
+    await this.root.evaluate((el) => {
+      el.scrollIntoView({ block: 'center' });
+      el.click();
+    });
   }
 }

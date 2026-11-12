@@ -1,5 +1,6 @@
 import { BaseComponent } from './BaseComponent.js';
 import { ButtonComponent } from './ButtonComponent.js';
+import { isTouchOnly } from './helpers/touch.js';
 
 export class DateTimePickerComponent extends BaseComponent {
   constructor({ page = null, parent = null, id = null } = {}) {
@@ -19,7 +20,19 @@ export class DateTimePickerComponent extends BaseComponent {
   }
 
   async openCalendar() {
-    await this.getInput().press('ArrowDown');
+    const input = this.getInput();
+
+    if (!(await isTouchOnly(input.page()))) {
+      await input.press('ArrowDown');
+      return;
+    }
+
+    // press() focuses with a tap there, so send the keyup the picker listens to in the page
+    await input.evaluate((el) => {
+      el.scrollIntoView({ block: 'center' });
+      el.focus();
+      el.dispatchEvent(new KeyboardEvent('keyup', { key: 'ArrowDown', bubbles: true }));
+    });
   }
 
   getCalendarContainer() {

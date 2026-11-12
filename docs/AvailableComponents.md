@@ -178,7 +178,8 @@ Use `DateTimePickerComponent` for LX date time pickers.
 - `getTimePickerContainer()` - returns the calendar time picker container **locator**.
 - `getTimeList()` - returns the calendar time list viewport **locator**.
 - `getActiveTimeItem()` - returns the active time list item **locator**.
-- `openCalendar()` - opens the calendar by pressing `ArrowDown` on the input. _Async_.
+- `openCalendar()` - opens the calendar by pressing `ArrowDown` on the input. On touch-only devices it
+  focuses the input and dispatches the `ArrowDown` keyup in the page instead. _Async_.
 - `getMobileTimeButton()` - returns the mobile time selection toggle button **component** (`ButtonComponent`).
 
 ---
@@ -621,6 +622,7 @@ Use `ValuePickerComponent` for LX value pickers.
     - `getEmptyState()` - returns the empty list state **locator**.
     - `open()` - opens the panel by clicking the combobox, if it is not open yet. _Async_.
     - `close()` - closes the panel by clicking the combobox, if it is open. _Async_.
+    - On touch-only devices both click the combobox in the page instead of by coordinates.
 - `getRotator()` - returns the rotator **wrapper** for `rotator*` variants. Not available for `readOnly`, use `getReadOnlyData()`. _Async_.
   - `getId()` - returns the value picker id (rotator items have ids `${id}-item-${itemId}`).
   - `getRoot()` - returns the rotator root **locator**.
