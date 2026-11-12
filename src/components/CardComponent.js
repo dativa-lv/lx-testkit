@@ -2,9 +2,7 @@ import { BaseComponent } from './BaseComponent.js';
 import { ButtonComponent } from './ButtonComponent.js';
 
 export class CardComponent extends BaseComponent {
-  constructor({ page = null, parent = null, id = null } = {}) {
-    super({ component: 'lx-card', page, parent, id });
-  }
+  static component = 'lx-card';
 
   getFront() {
     return this.root.locator('.lx-card-front');

@@ -3,9 +3,7 @@ import { IconComponent } from './IconComponent.js';
 import { ButtonComponent } from './ButtonComponent.js';
 
 export class InfoBoxComponent extends BaseComponent {
-  constructor({ page = null, parent = null, id = null } = {}) {
-    super({ component: 'lx-info-box', page, parent, id });
-  }
+  static component = 'lx-info-box';
 
   getTitle() {
     return this.root.locator('.lx-primary');

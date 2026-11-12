@@ -2,11 +2,14 @@ import { BaseComponent } from './BaseComponent.js';
 import { ButtonComponent } from './ButtonComponent.js';
 import { ToolbarComponent } from './ToolbarComponent.js';
 import { IconComponent } from './IconComponent.js';
+import {
+  findHelperIcon,
+  findHelperIconWrapper,
+  findHelperText,
+} from './helpers/helperTextUtils.js';
 
 export class MarkdownTextAreaComponent extends BaseComponent {
-  constructor({ page = null, parent = null, id = null } = {}) {
-    super({ component: 'lx-markdown-text-area', page, parent, id });
-  }
+  static component = 'lx-markdown-text-area';
 
   getWrapper() {
     return this.root.locator('.lx-markdown-text-area-wrapper');
@@ -50,15 +53,15 @@ export class MarkdownTextAreaComponent extends BaseComponent {
   }
 
   getHelperText() {
-    return this.root.locator('.lx-helper-text');
+    return findHelperText(this.root);
   }
 
   getHelperIconWrapper() {
-    return this.root.locator('.lx-input-helper-wrapper');
+    return findHelperIconWrapper(this.root);
   }
 
   getHelperIcon() {
-    return new IconComponent({ parent: this.root.locator('.lx-input-helper-wrapper') });
+    return findHelperIcon(this.root);
   }
 
   getFooter() {

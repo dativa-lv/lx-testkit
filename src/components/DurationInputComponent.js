@@ -3,9 +3,7 @@ import { TextInputComponent } from './TextInputComponent.js';
 import { ValuePickerComponent } from './ValuePickerComponent.js';
 
 export class DurationInputComponent extends BaseComponent {
-  constructor({ page = null, parent = null, id = null } = {}) {
-    super({ component: 'lx-duration-input', page, parent, id });
-  }
+  static component = 'lx-duration-input';
 
   async getInput(name) {
     const { variant } = await this.getState();

@@ -1,7 +1,10 @@
 export class BaseComponent {
-  constructor({ component = null, page = null, parent = null, id = null } = {}) {
+  // Subclasses declare their data-component as `static component = 'lx-…'`
+  constructor({ page = null, parent = null, id = null, directChild = false } = {}) {
+    const { component } = new.target;
+
     if (!component) {
-      throw new Error('BaseComponent requires component');
+      throw new Error(`${new.target.name} requires static component`);
     }
 
     if (!page && !parent) {
@@ -12,7 +15,13 @@ export class BaseComponent {
       throw new Error('BaseComponent requires id when parent is not provided');
     }
 
-    const componentSelector = `[data-component="${component}"]`;
+    // `directChild` matches only a direct child of `parent`, for components that can only be told
+    // apart from nested ones of the same type by their position
+    if (directChild && !parent) {
+      throw new Error('BaseComponent requires parent when directChild is set');
+    }
+
+    const componentSelector = `${directChild ? ':scope > ' : ''}[data-component="${component}"]`;
     const escapedId = id ? (globalThis.CSS?.escape?.(id) ?? id) : id;
     const idSelector = id ? `[data-id="${escapedId}"], [id="${escapedId}"]` : '';
 

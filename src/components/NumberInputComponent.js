@@ -2,9 +2,7 @@ import { BaseComponent } from './BaseComponent.js';
 import { TextInputComponent } from './TextInputComponent.js';
 
 export class NumberInputComponent extends BaseComponent {
-  constructor({ page = null, parent = null, id = null } = {}) {
-    super({ component: 'lx-number-input', page, parent, id });
-  }
+  static component = 'lx-number-input';
 
   async getWrapper() {
     const { kind, readOnly } = await this.getState();

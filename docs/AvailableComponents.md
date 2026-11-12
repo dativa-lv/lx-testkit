@@ -6,22 +6,27 @@ Components covered by the test utils:
 - `AutoCompleteComponent`
 - `BadgeComponent`
 - `ButtonComponent`
+- `CameraComponent`
 - `CardComponent`
+- `ChatComponent`
 - `CheckboxComponent`
 - `ContentSwitcherComponent`
 - `DateTimePickerComponent`
 - `DateTimeRangeComponent`
 - `DropDownMenuComponent`
 - `DurationInputComponent`
+- `EmptyStateComponent`
 - `ExpanderComponent`
 - `FileUploaderComponent`
 - `IconComponent`
 - `InfoBoxComponent`
 - `InfoWrapperComponent`
+- `ListComponent`
 - `LoaderComponent`
 - `MarkdownTextAreaComponent`
 - `NumberInputComponent`
 - `RadioButtonComponent`
+- `SkipLinkComponent`
 - `StateDisplayComponent`
 - `StepsComponent`
 - `TextAreaComponent`
@@ -99,6 +104,37 @@ Use `ButtonComponent` for LX buttons.
 
 ---
 
+### `CameraComponent`
+
+Use `CameraComponent` for LX cameras.
+
+**Component selector (data-component):** `lx-camera`
+
+The camera needs a video device and camera permission. In Playwright, grant the `camera` permission
+and launch Chromium with `--use-fake-ui-for-media-stream` and `--use-fake-device-for-media-stream`.
+Without access, the camera shows the error state.
+
+**Available methods:**
+
+- `getRoot()` - returns the camera component root **locator**.
+- `getComponentId()` - returns the component id, read from `data-id` when the wrapper was created without one. _Async_.
+- `getFrame()` - returns the camera frame **locator** (carries `lx-disabled` while the stream is starting).
+- `getVideo()` - returns the live video **locator**, shown while there is no photo.
+- `getPhoto()` - returns the taken photo **locator** (`img`).
+- `getLoader()` - returns the loader **component** (`LoaderComponent`), shown while the stream is starting.
+- `getToolbar()` - returns the toolbar **component** (`ToolbarComponent`), shown while there is no photo. _Async_.
+- `getSwitchCameraButton()` - returns the switch camera button **component** (`ButtonComponent`). Only for `cameraSwitcherMode = 'toggle'`, with more than one camera. _Async_.
+- `getCameraMenu()` - returns the camera list **component** (`DropDownMenuComponent`), with one `camera-<deviceId>` action per camera. Only for `cameraSwitcherMode = 'list'`, with more than one camera. _Async_.
+- `getFlashlightToggle()` - returns the flashlight toggle **component** (`ToggleComponent`). Only for `hasFlashlightToggle`, when the camera supports a torch. _Async_.
+- `getTakePhotoButton()` - returns the take photo button **component** (`ButtonComponent`), shown while there is no photo. _Async_.
+- `getDeletePhotoButton()` - returns the delete photo button **component** (`ButtonComponent`), shown while there is a photo. _Async_.
+- `getErrorState()` - returns the error **component** (`EmptyStateComponent`), shown without camera access, with the `refresh` action.
+- `getHelperText()` - returns the inline helperText **locator** (`helperTextKind="label"`).
+- `getHelperIconWrapper()` - returns the helperText info wrapper **locator** (`helperTextKind="icon"`).
+- `getHelperIcon()` - returns the helperText info icon **component** (`IconComponent`) (`helperTextKind="icon"`).
+
+---
+
 ### `CardComponent`
 
 Use `CardComponent` for LX cards.
@@ -111,6 +147,47 @@ Use `CardComponent` for LX cards.
 - `getFront()` - returns the front face **locator**.
 - `getBack()` - returns the back face **locator**.
 - `getFlipButton()` - returns the flip button **component** (`ButtonComponent`). _Async_.
+
+---
+
+### `ChatComponent`
+
+Use `ChatComponent` for LX chats.
+
+**Component selector (data-component):** `lx-chat`
+
+Messages are looked up by the message id (the `items` entry `id`). The chat layout follows its own
+width, not the viewport: `size = 'l'` above 900px, `'m'` below.
+
+**Available methods:**
+
+- `getRoot()` - returns the chat component root **locator**.
+- `getComponentId()` - returns the component id, read from `data-id` when the wrapper was created without one. _Async_.
+- `getMessages()` - returns a **locator** matching every message.
+- `getMessage({ id, n })` - returns one message **wrapper** by message id or zero-based index. _Async_.
+  - `getId()` - returns the message id.
+  - `getRoot()` - returns the message root **locator**.
+  - `getUserGroup()` - returns the **locator** of the group the message is in (messages of one user and day, carries `lx-chat-user-me` and `lx-chat-user-ai`).
+  - `getHeader()` - returns the person header **locator** (name and time), shown at the start of a group or for every message without `messageGrouping`.
+  - `getBadge()` - returns the header badge **component** (`BadgeComponent`), from `userDefinitions` or the default AI badge.
+  - `getTime()` - returns the time label **locator**, shown instead of the header for own messages in a narrow chat and after a `messageGroupingInterval` gap.
+  - `getBubble()` - returns the bubble **locator** (carries `lx-category-*` and `lx-invalid`).
+  - `getText()` - returns the message text **locator** (the form prompt for a message with `schema`).
+  - `getForm()` - returns the clarifying questions form **locator**, for a message with `schema` and `clarifyingQuestionsBuilder`.
+  - `getFormActionButton({ id })` - returns a form action button **component** (`ButtonComponent`), by the message `actionDefinitions` id, `lx_submit_default` without them.
+  - `getInvalidationIcon()` - returns the invalidation icon **component** (`IconComponent`), for an `invalid` message.
+  - `getInvalidationMessage()` - returns the invalidation message **locator** (`invalidationMessage`).
+  - `getActionButton({ id })` - returns a `messageActionDefinitions` button **component** (`ButtonComponent`), rendered when one action is visible.
+  - `getActionsMenu()` - returns the actions **component** (`DropDownMenuComponent`), rendered when more actions are visible. _Async_.
+- `getTypingIndicator()` - returns the typing indicator **wrapper**, shown while `typing` is on. _Async_.
+  - `getRoot()` - returns the typing indicator root **locator**.
+  - `getStatusText()` - returns the status **locator** (`typingUsers` names and the status text).
+  - `getActionButton({ id })` - returns a `typingActionDefinitions` button **component** (`ButtonComponent`), rendered when one action is visible.
+  - `getActionsMenu()` - returns the actions **component** (`DropDownMenuComponent`), rendered when more actions are visible. _Async_.
+- `getEmptyState()` - returns the empty state **component** (`EmptyStateComponent`), shown without messages and typing.
+- `getScrollDownButton()` - returns the scroll to latest messages button **component** (`ButtonComponent`), shown while the list is scrolled up. _Async_.
+- `getMessageInput()` - returns the message input **component** (`TextAreaComponent`). Enter sends, Shift+Enter adds a new line. _Async_.
+- `getSendButton()` - returns the send button **component** (`ButtonComponent`), disabled while the input is empty. _Async_.
 
 ---
 
@@ -244,6 +321,23 @@ Use `DurationInputComponent` for LX duration inputs.
 
 ---
 
+### `EmptyStateComponent`
+
+Use `EmptyStateComponent` for LX empty states.
+
+**Component selector (data-component):** `lx-empty-state`
+
+**Available methods:**
+
+- `getRoot()` - returns the empty state component root **locator**.
+- `getIcon()` - returns the icon **component** (`IconComponent`).
+- `getLabel()` - returns the label **locator**.
+- `getDescription()` - returns the description **locator**.
+- `getActionButton({ id })` - returns an action button **component** (`ButtonComponent`), for up to three actions.
+- `getActionsMenu()` - returns the actions **component** (`DropDownMenuComponent`), for more than three actions. _Async_.
+
+---
+
 ### `ExpanderComponent`
 
 Use `ExpanderComponent` for LX expanders.
@@ -350,6 +444,65 @@ Use `InfoWrapperComponent` for LX info wrappers.
 
 ---
 
+### `ListComponent`
+
+Use `ListComponent` for LX lists.
+
+**Component selector (data-component):** `lx-list`
+
+Items are looked up by the LxListItem id (the item `idAttribute` value). A virtualized default list
+(`state.virtualized`) renders only the rows around the viewport.
+
+Treelist renders either a wide (nested) or, at `max-width: 800px`, a narrow (one level at a time)
+layout, and item getters work on the rendered one. While a client search runs, it is replaced by a
+flat list of matches.
+
+**Available methods:**
+
+- `getRoot()` - returns the list component root **locator**.
+- `getComponentId()` - returns the component id, read from `data-id` when the wrapper was created without one. _Async_.
+- `getItems()` - returns a **locator** matching every rendered item.
+- `getItem({ id, n })` - returns one item **wrapper** by item id or zero-based index. _Async_.
+  - `getId()` - returns the item id.
+  - `getRoot()` - returns the item container **locator** (holds the list item and its selection control or drag handle).
+  - `getContent()` - returns the list item **locator** (`.lx-list-item`, carries `role="button"` for clickable items, `lx-selected`, `lx-list-item-disabled` and `lx-category-*`).
+  - `getLabel()` - returns the item name **locator**.
+  - `getDescription()` - returns the item description **locator**.
+  - `getSearchHighlights()` - returns a **locator** matching the parts of the label and description that match the client search string. Not rendered with the `customItem` slot.
+  - `getIcon()` - returns the clickable / href item icon **component** (`IconComponent`).
+  - `getLoader()` - returns the busy item loader **component** (`LoaderComponent`).
+  - `getActionButton({ id })` - returns the action button **component** (`ButtonComponent`), rendered when one action is visible.
+  - `getActionsMenu()` - returns the actions **component** (`DropDownMenuComponent`), rendered when more actions are visible. _Async_.
+  - `getSelectionControl()` - returns the selection control (`hasSelecting`, not for `draggable`):
+    - If `selectionKind = 'single'` - returns radio button **component** (`RadioButtonComponent`).
+    - If `selectionKind = 'multiple'` - returns checkbox **component** (`CheckboxComponent`). Its text label is visually hidden, click `getAppearance()`.
+  - `getHandle()` - returns the drag handle **locator** (focusable, arrow keys move the item). Only for `kind = 'draggable'`.
+  - `getMoveMenu()` - returns the move menu **component** (`DropDownMenuComponent`) opened by right clicking the handle, with actions `move-first`, `move-up`, `move-down`, `move-last`. Only for `kind = 'draggable'`. _Async_.
+  - `getExpandButton()` - returns the expand button **component** (`ButtonComponent`). Only for `kind = 'treelist'`:
+    - Wide layout - expands or collapses the children in place.
+    - Narrow layout - opens the children as the next level (for the opened parent, it is the back button).
+  - `getReloadButton()` - returns the reload button **component** (`ButtonComponent`) shown for `itemsStates[id].invalid`. Only for `kind = 'treelist'`. The narrow layout shows it for the opened parent only.
+  - `getLoadingError()` - returns the loading error text **locator** next to the reload button. Only for `kind = 'treelist'`.
+- `getGroups()` - returns a **locator** matching every group expander.
+- `getGroup({ id })` - returns one `groupDefinitions` group **wrapper** by group id. Not available without `groupDefinitions`. _Async_.
+  - `getId()` - returns the group id.
+  - `getRoot()` - returns the group expander root **locator**.
+  - `getExpander()` - returns the group **component** (`ExpanderComponent`).
+  - `getSelectButton()` - returns the select / clear whole group button **component** (`ButtonComponent`) (`hasSelecting`, `selectionKind = 'multiple'`).
+  - `getItems()` - returns a **locator** matching every item in the group.
+  - `getItem({ id, n })` - see `getItem({ id, n })` above, within the group. _Async_.
+- `getToolbar()` - returns the toolbar **component** (`ToolbarComponent`). _Async_.
+- `getSelectionStatus()` - returns the selected item count **locator**, shown while items are selected.
+- `getSelectionActionButton({ id })` - returns a `selectionActionDefinitions` button **component** (`ButtonComponent`), shown while items are selected.
+- `getSelectionActionsMenu()` - returns the selection actions **component** (`DropDownMenuComponent`) used instead of the buttons in a narrow list. _Async_.
+- `getTreeBackButton()` - returns the back button **component** (`ButtonComponent`) of the opened level in the narrow treelist layout. Only for `kind = 'treelist'`. _Async_.
+- `getEmptyState()` - returns the empty state **component** (`EmptyStateComponent`), shown for an empty list (with `emptyStateIcon` and `emptyStateActionDefinitions`) or, with the label only, when a client search finds nothing.
+- `getLoadMoreButton()` - returns the load more button **component** (`ButtonComponent`) (`showLoadMore`).
+- `getLoader()` - returns the list loader **component** (`LoaderComponent`) (`loading` without `showLoadMore`).
+- `getSkipLink()` - returns the skip link **component** (`SkipLinkComponent`) (`hasSkipLink`).
+
+---
+
 ### `LoaderComponent`
 
 Use `LoaderComponent` for LX loaders.
@@ -449,6 +602,19 @@ Use `RadioButtonComponent` for LX radio buttons.
 - `getLabel()` - returns the visible radio button label **locator**.
 - `getAppearance()` - returns the visual radio button control **locator**.
 - `getThumb()` - returns the radio button thumb **locator**.
+
+---
+
+### `SkipLinkComponent`
+
+Use `SkipLinkComponent` for LX skip links.
+
+**Component selector (data-component):** `lx-skip-link`
+
+**Available methods:**
+
+- `getRoot()` - returns the skip link component root **locator**.
+- `getButton()` - returns the skip link button **component** (`ButtonComponent`). It is clipped until it gets keyboard focus.
 
 ---
 

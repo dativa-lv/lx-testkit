@@ -2,9 +2,7 @@ import { BaseComponent } from './BaseComponent.js';
 import { IconComponent } from './IconComponent.js';
 
 export class CheckboxComponent extends BaseComponent {
-  constructor({ page = null, parent = null, id = null } = {}) {
-    super({ component: 'lx-checkbox', page, parent, id });
-  }
+  static component = 'lx-checkbox';
 
   getInput() {
     return this.root.locator('input');

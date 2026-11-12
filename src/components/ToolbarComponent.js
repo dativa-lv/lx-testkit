@@ -4,9 +4,7 @@ import { ToggleComponent } from './ToggleComponent.js';
 import { AutoCompleteComponent } from './AutoCompleteComponent.js';
 
 export class ToolbarComponent extends BaseComponent {
-  constructor({ page = null, parent = null, id = null } = {}) {
-    super({ component: 'lx-toolbar', page, parent, id });
-  }
+  static component = 'lx-toolbar';
 
   getButton(id) {
     return new ButtonComponent({ parent: this.root, id });

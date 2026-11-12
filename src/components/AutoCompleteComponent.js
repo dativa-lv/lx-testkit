@@ -2,9 +2,7 @@ import { BaseComponent } from './BaseComponent.js';
 import { ButtonComponent } from './ButtonComponent.js';
 
 export class AutoCompleteComponent extends BaseComponent {
-  constructor({ page = null, parent = null, id = null } = {}) {
-    super({ component: 'lx-auto-complete', page, parent, id });
-  }
+  static component = 'lx-auto-complete';
 
   getInputWrapper() {
     return this.root.locator('.lx-text-input-wrapper');

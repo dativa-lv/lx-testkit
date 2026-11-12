@@ -3,9 +3,7 @@ import { ButtonComponent } from './ButtonComponent.js';
 import { isTouchOnly } from './helpers/touch.js';
 
 export class DateTimePickerComponent extends BaseComponent {
-  constructor({ page = null, parent = null, id = null } = {}) {
-    super({ component: 'lx-date-time-picker', page, parent, id });
-  }
+  static component = 'lx-date-time-picker';
 
   getInput() {
     return this.root.locator(`input.lx-date-time-picker[id="${this.id}"]`).first();

@@ -1,9 +1,7 @@
 import { BaseComponent } from './BaseComponent.js';
 
 export class RadioButtonComponent extends BaseComponent {
-  constructor({ page = null, parent = null, id = null } = {}) {
-    super({ component: 'lx-radio-button', page, parent, id });
-  }
+  static component = 'lx-radio-button';
 
   getInput() {
     return this.root.locator('input');

@@ -3,9 +3,7 @@ import { IconComponent } from './IconComponent.js';
 import { BadgeComponent } from './BadgeComponent.js';
 
 export class ExpanderComponent extends BaseComponent {
-  constructor({ page = null, parent = null, id = null } = {}) {
-    super({ component: 'lx-expander', page, parent, id });
-  }
+  static component = 'lx-expander';
 
   getHeader() {
     return this.root.locator('header.lx-head');

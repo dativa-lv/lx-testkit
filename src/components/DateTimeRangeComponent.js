@@ -1,9 +1,7 @@
 import { BaseComponent } from './BaseComponent.js';
 
 export class DateTimeRangeComponent extends BaseComponent {
-  constructor({ page = null, parent = null, id = null } = {}) {
-    super({ component: 'lx-date-time-range-picker', page, parent, id });
-  }
+  static component = 'lx-date-time-range-picker';
 
   getInput(name) {
     switch (name) {

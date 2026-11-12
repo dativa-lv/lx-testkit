@@ -4,9 +4,7 @@ import { ToolbarComponent } from './ToolbarComponent.js';
 import { FileUploaderItem } from './helpers/FileUploaderItem.js';
 
 export class FileUploaderComponent extends BaseComponent {
-  constructor({ page = null, parent = null, id = null } = {}) {
-    super({ component: 'lx-file-uploader', page, parent, id });
-  }
+  static component = 'lx-file-uploader';
 
   // Inner ids are derived from the component id, which a parent-only lookup does not know
   async getComponentId() {

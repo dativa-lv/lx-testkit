@@ -81,15 +81,13 @@ Use `data-state` only for stable state needed by test-utils API decisions.
 
 For standard LX wrappers, always extend `BaseComponent`.
 
-Minimal skeleton - constructor only:
+Minimal skeleton - the `data-component` name only:
 
 ```js
 import { BaseComponent } from './BaseComponent.js';
 
 export class MyComponent extends BaseComponent {
-	constructor({ page = null, parent = null, id = null } = {}) {
-		super({ component: 'lx-my-component', page, parent, id });
-	}
+	static component = 'lx-my-component';
 
 	// Add component-specific get* methods below when needed.
 }
@@ -108,9 +106,10 @@ getInput() {
 
 `BaseComponent` validates constructor arguments:
 
-- `component` is required.
+- The wrapper must declare `static component`.
 - At least one of `page` or `parent` is required.
 - `id` is required when `parent` is not provided.
+- `parent` is required when `directChild` is set.
 - When both `page` and `parent` are provided, `parent` is used as lookup scope.
 
 `BaseComponent` also provides inherited methods that wrappers can use directly:
@@ -121,17 +120,25 @@ getInput() {
 
 ## Constructor conventions
 
-Follow this shape in every wrapper constructor:
+Every wrapper takes the same options, handled by `BaseComponent`:
 
 ```js
-constructor({ page = null, parent = null, id = null } = {})
+new MyComponent({ page, parent, id, directChild });
 ```
 
-Support both forms:
+Support all these forms:
 
 1. `{ page, id }` for top-level instances.
 2. `{ parent }` for nested instances inside another component.
 3. `{ parent, id }` for nested instances when you need to target a specific child by id.
+
+`{ parent }` matches the component anywhere inside `parent`. When the parent also holds nested
+components of the same type (e.g. the icon inside every button), pass `directChild: true` to match
+only a direct child of `parent`:
+
+```js
+new IconComponent({ parent: this.data, directChild: true });
+```
 
 Do not add extra constructor requirements unless they are truly necessary.
 

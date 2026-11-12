@@ -2,9 +2,7 @@ import { BaseComponent } from './BaseComponent.js';
 import { ContentSwitcherItem } from './helpers/ContentSwitcherItem.js';
 
 export class ContentSwitcherComponent extends BaseComponent {
-  constructor({ page = null, parent = null, id = null } = {}) {
-    super({ component: 'lx-content-switcher', page, parent, id });
-  }
+  static component = 'lx-content-switcher';
 
   getItem({ id = null, n = null } = {}) {
     return new ContentSwitcherItem({ parentRoot: this.root, id, n });

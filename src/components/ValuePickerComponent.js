@@ -1,5 +1,9 @@
 import { BaseComponent } from './BaseComponent.js';
-import { IconComponent } from './IconComponent.js';
+import {
+  findHelperIcon,
+  findHelperIconWrapper,
+  findHelperText,
+} from './helpers/helperTextUtils.js';
 import { ValuePickerItemsWrapper } from './helpers/ValuePickerItemsWrapper.js';
 import { ValuePickerItem } from './helpers/ValuePickerItem.js';
 import { ToolbarComponent } from './ToolbarComponent.js';
@@ -8,9 +12,7 @@ import { ValuePickerDropDown } from './helpers/ValuePickerDropDown.js';
 import { ValuePickerRotator } from './helpers/ValuePickerRotator.js';
 
 export class ValuePickerComponent extends BaseComponent {
-  constructor({ page = null, parent = null, id = null } = {}) {
-    super({ component: 'lx-value-picker', page, parent, id });
-  }
+  static component = 'lx-value-picker';
 
   // Dropdown and rotator items live in their own panels, so point to the variant specific getters
   #requireInlineItems(name, variant) {
@@ -56,16 +58,15 @@ export class ValuePickerComponent extends BaseComponent {
   }
 
   getHelperText() {
-    return this.root.locator('.lx-helper-text');
+    return findHelperText(this.root);
   }
 
-  // Input-like variants (dropdown, rotator) render the icon inside the input, others below items
   getHelperIconWrapper() {
-    return this.root.locator('.lx-input-helper-wrapper, .lx-helper-info-row');
+    return findHelperIconWrapper(this.root);
   }
 
   getHelperIcon() {
-    return new IconComponent({ parent: this.getHelperIconWrapper() });
+    return findHelperIcon(this.root);
   }
 
   async getToolbar() {

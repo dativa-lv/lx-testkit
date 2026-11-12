@@ -3,8 +3,15 @@ import { ButtonComponent } from './ButtonComponent.js';
 import { ToggleComponent } from './ToggleComponent.js';
 
 export class DropDownMenuComponent extends BaseComponent {
-  constructor({ page = null, parent = null, id = null } = {}) {
-    super({ component: 'lx-drop-down-menu', page, parent, id });
+  static component = 'lx-drop-down-menu';
+
+  // Menus without an explicit id get a generated one, so read it from the DOM before building
+  // the component, since the panel is found by id
+  static async fromParent(parent, { directChild = false } = {}) {
+    const unidentified = new DropDownMenuComponent({ parent, directChild });
+    const id = await unidentified.root.getAttribute('data-id');
+
+    return new DropDownMenuComponent({ parent, id, directChild });
   }
 
   getToggler() {

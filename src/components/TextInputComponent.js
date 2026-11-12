@@ -1,11 +1,14 @@
 import { BaseComponent } from './BaseComponent.js';
 import { ButtonComponent } from './ButtonComponent.js';
 import { IconComponent } from './IconComponent.js';
+import {
+  findHelperIcon,
+  findHelperIconWrapper,
+  findHelperText,
+} from './helpers/helperTextUtils.js';
 
 export class TextInputComponent extends BaseComponent {
-  constructor({ page = null, parent = null, id = null } = {}) {
-    super({ component: 'lx-text-input', page, parent, id });
-  }
+  static component = 'lx-text-input';
 
   getInputWrapper() {
     return this.root.locator('.lx-text-input-wrapper');
@@ -28,15 +31,15 @@ export class TextInputComponent extends BaseComponent {
   }
 
   getHelperText() {
-    return this.root.locator('.lx-helper-text');
+    return findHelperText(this.root);
   }
 
   getHelperIconWrapper() {
-    return this.root.locator('.lx-input-helper-wrapper');
+    return findHelperIconWrapper(this.root);
   }
 
   getHelperIcon() {
-    return new IconComponent({ parent: this.root.locator('.lx-input-helper-wrapper') });
+    return findHelperIcon(this.root);
   }
 
   getSearchIcon() {

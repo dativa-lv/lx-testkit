@@ -4,9 +4,7 @@ import { BadgeComponent } from './BadgeComponent.js';
 import { LoaderComponent } from './LoaderComponent.js';
 
 export class ButtonComponent extends BaseComponent {
-  constructor({ page = null, parent = null, id = null } = {}) {
-    super({ component: 'lx-button', page, parent, id });
-  }
+  static component = 'lx-button';
 
   getLabel() {
     return this.root.locator('.lx-button-label');

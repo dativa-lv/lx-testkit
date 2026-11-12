@@ -2,9 +2,7 @@ import { BaseComponent } from './BaseComponent.js';
 import { IconComponent } from './IconComponent.js';
 
 export class BadgeComponent extends BaseComponent {
-  constructor({ page = null, parent = null, id = null } = {}) {
-    super({ component: 'lx-badge', page, parent, id });
-  }
+  static component = 'lx-badge';
 
   getIcon() {
     return new IconComponent({ parent: this.root });

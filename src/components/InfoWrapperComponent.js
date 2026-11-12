@@ -3,9 +3,7 @@ import { ButtonComponent } from './ButtonComponent.js';
 import { IconComponent } from './IconComponent.js';
 
 export class InfoWrapperComponent extends BaseComponent {
-  constructor({ page = null, parent = null, id = null } = {}) {
-    super({ component: 'lx-info-wrapper', page, parent, id });
-  }
+  static component = 'lx-info-wrapper';
 
   getTrigger() {
     return this.root.locator('.lx-info-wrapper-content');

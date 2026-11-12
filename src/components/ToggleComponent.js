@@ -2,9 +2,7 @@ import { BaseComponent } from './BaseComponent.js';
 import { IconComponent } from './IconComponent.js';
 
 export class ToggleComponent extends BaseComponent {
-  constructor({ page = null, parent = null, id = null } = {}) {
-    super({ component: 'lx-toggle', page, parent, id });
-  }
+  static component = 'lx-toggle';
 
   getAppearance() {
     return this.root.locator('.lx-toggle-appearance');

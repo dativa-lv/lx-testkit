@@ -4,9 +4,7 @@ import { AppendableListItemsWrapper } from './helpers/AppendableListItemsWrapper
 import { AppendableListItem } from './helpers/AppendableListItem.js';
 
 export class AppendableListComponent extends BaseComponent {
-  constructor({ page = null, parent = null, id = null } = {}) {
-    super({ component: 'lx-appendable-list', page, parent, id });
-  }
+  static component = 'lx-appendable-list';
 
   async getItemsWrapper() {
     const { expandable } = await this.getState();
