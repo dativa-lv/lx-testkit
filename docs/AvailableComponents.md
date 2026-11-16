@@ -16,6 +16,7 @@ Components covered by the test utils:
 - `DropDownMenuComponent`
 - `DurationInputComponent`
 - `EmptyStateComponent`
+- `EmptyValueComponent`
 - `ExpanderComponent`
 - `FileUploaderComponent`
 - `IconComponent`
@@ -25,6 +26,7 @@ Components covered by the test utils:
 - `LoaderComponent`
 - `MarkdownTextAreaComponent`
 - `NumberInputComponent`
+- `PersonDisplayComponent`
 - `RadioButtonComponent`
 - `SkipLinkComponent`
 - `StateDisplayComponent`
@@ -338,6 +340,19 @@ Use `EmptyStateComponent` for LX empty states.
 
 ---
 
+### `EmptyValueComponent`
+
+Use `EmptyValueComponent` for LX empty values (the `—` shown in place of a missing value).
+
+**Component selector (data-component):** `lx-empty-value`
+
+**Available methods:**
+
+- `getRoot()` - returns the empty value component root **locator**.
+- `getValue()` - returns the visible dash **locator**, which carries the empty value tooltip.
+
+---
+
 ### `ExpanderComponent`
 
 Use `ExpanderComponent` for LX expanders.
@@ -585,6 +600,28 @@ returns whatever the current kind renders.
 **Not available for every kind:** the tracks, the range labels and the range belong to the
 slider, the buttons to the stepper. Asking for one on the other kind throws
 a clear error like `Filled track is not available for kind: stepper, readOnly: false`.
+
+---
+
+### `PersonDisplayComponent`
+
+Use `PersonDisplayComponent` for LX person displays.
+
+**Component selector (data-component):** `lx-person-display`
+
+**Available methods:**
+
+- `getRoot()` - returns the person display component root **locator**.
+- `getComponentId()` - returns the component id, read from `data-id` when the wrapper was created without one. _Async_.
+- `getAvatars()` - returns all avatar **locators** (generated avatars, user icons and custom icons).
+- `getAvatar({ n })` - returns one avatar **locator** by zero-based index (defaults to the first).
+- `getInitials({ n })` - returns the initials **locator** of one avatar, for `kind: 'initials'`.
+- `getIcon({ n })` - returns the icon **component** (`IconComponent`) of one avatar, for the user icon and custom icons (generated avatars are plain SVG).
+- `getName()` - returns the name **locator**, for a single person in the `full` variant.
+- `getDescription()` - returns the description **locator**, for a single person of size `l`.
+- `getOverflowCounter()` - returns the `+ N` counter **locator**, for more people than `maxLength`.
+- `getEmptyValue()` - returns the empty value **component** (`EmptyValueComponent`), for no people, a missing name or a missing description.
+- `getInfoWrapper()` - returns the info wrapper **component** (`InfoWrapperComponent`) holding the person details panel. _Async_.
 
 ---
 
