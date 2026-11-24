@@ -749,8 +749,13 @@ Use `ToggleComponent` for LX toggles.
 - `getThumb()` - returns the toggle thumb **locator**.
 - `getLabelWrapper()` - returns the toggle label wrapper **locator**.
 - `getText()` - returns the toggle text **locator**.
+- `getWrapper()` - returns the toggle wrapper **locator**.
+- `getInput()` - returns the toggle input **locator**.
 - `getInvalidationIcon()` - returns the invalidation icon **component** (`IconComponent`).
 - `getInvalidationMessage()` - returns the invalidation message **locator**.
+- `getHelperText()` - returns the inline helperText **locator** (`helperTextKind="label"`).
+- `getHelperIconWrapper()` - returns the helperText info wrapper **locator** (`helperTextKind="icon"`).
+- `getHelperIcon()` - returns the helperText info icon **component** (`IconComponent`) (`helperTextKind="icon"`).
 
 ---
 
