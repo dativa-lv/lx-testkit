@@ -29,7 +29,7 @@
     "playwright": "^1.55.0"
   },
   "peerDependencies": {
-    "@dativa-lv/lx-ui": "2.3.14"
+    "@dativa-lv/lx-ui": "2.3.15"
   },
   "peerDependenciesMeta": {
     "@dativa-lv/lx-ui": {
