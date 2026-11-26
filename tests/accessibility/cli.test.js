@@ -130,6 +130,53 @@ describe('accessibility CLI', () => {
     }
   });
 
+  test('--summary and --baseline write totals counted from the built and previous reports', async () => {
+    mockState.axeResults = {
+      violations: [{ id: 'button-name', tags: ['wcag412'], impact: 'critical', nodes: [] }],
+      incomplete: [{ id: 'color-contrast', tags: ['wcag143'], impact: 'serious', nodes: [] }],
+      passes: [],
+    };
+    const dir = await mkdtemp(path.join(tmpdir(), 'a11y-cli-'));
+    try {
+      const configPath = await writeConfig(
+        dir,
+        `export default {
+          projectName: 'Test project',
+          baseUrl: 'https://example.com',
+          pages: [
+            { name: 'Home', path: '/' },
+            { name: 'Dialog', path: '/dialog', states: [{ name: 'closed' }, { name: 'open' }] },
+          ],
+        };`
+      );
+      const outputPath = path.join(dir, 'report.json');
+      const summaryPath = path.join(dir, 'nested', 'summary.env');
+      const baselinePath = path.join(dir, 'baseline.json');
+      await writeFile(baselinePath, JSON.stringify({ pages: [], errorRegistry: { a: {}, b: {}, c: {}, d: {} } }));
+
+      const code = await main([
+        '--config',
+        configPath,
+        '--output',
+        outputPath,
+        '--summary',
+        summaryPath,
+        '--baseline',
+        baselinePath,
+      ]);
+      expect(code).toBe(0);
+
+      const findings = Object.keys(JSON.parse(await readFile(outputPath, 'utf8')).errorRegistry).length;
+      expect(findings).toBeGreaterThan(0);
+
+      expect(await readFile(summaryPath, 'utf8')).toBe(
+        `A11Y_SCANS=3\nA11Y_FINDINGS_TOTAL=${findings}\nA11Y_FINDINGS_TOTAL_PREVIOUS=4\n`
+      );
+    } finally {
+      await rm(dir, { recursive: true, force: true });
+    }
+  });
+
   test('rejects a page name that does not exist in --page filter', async () => {
     const dir = await mkdtemp(path.join(tmpdir(), 'a11y-cli-'));
     try {

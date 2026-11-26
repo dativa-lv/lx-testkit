@@ -55,13 +55,29 @@ module.exports = {
 ## CLI usage
 
 ```
-testkit-a11y --config <path> [--output <path>] [--page <name>]
+testkit-a11y --config <path> [--output <path>] [--summary <path>] [--baseline <path>] [--page <name>]
 
   -c, --config <path>   Path to the accessibility config module (required)
   -o, --output <path>   Path to write the JSON report to (default: accessibility-report.json)
+  -s, --summary <path>  Also write scan totals (A11Y_SCANS, A11Y_FINDINGS_TOTAL) as a shell-sourceable file
+  -b, --baseline <path> Previous report to compare against; adds A11Y_FINDINGS_TOTAL_PREVIOUS to the summary
   -p, --page <name>     Only scan the page with this configured name
   -h, --help            Show this help message
 ```
+
+`--summary` writes plain `KEY=value` lines, so CI steps without a JSON parser
+(e.g. a `curl` image) can read the totals with `. <path>`:
+
+```sh
+A11Y_SCANS=3                     # individual scans (one per page state)
+A11Y_FINDINGS_TOTAL=5            # errors listed in the report (errorRegistry entries)
+A11Y_FINDINGS_TOTAL_PREVIOUS=7   # same total for the --baseline report
+```
+
+Findings are counted from the report itself, so a previous report (e.g. one
+downloaded from the portal) is counted the same way as the current one.
+`--baseline` is optional and never fails the scan: if the file is missing or
+is not a report, a warning is printed and `A11Y_FINDINGS_TOTAL_PREVIOUS` is omitted.
 
 Exit codes:
 

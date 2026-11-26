@@ -7,15 +7,18 @@ import { runAccessibilityChecks } from '../runner/AccessibilityRunner.js';
 import { evaluateAxeResults } from '../wcag/evaluator.js';
 import { AccessibilityReportBuilder } from '../report/AccessibilityReportBuilder.js';
 import { writeReport } from '../report/serializeReport.js';
+import { countFindings, readBaselineFindings, writeSummary } from '../report/summary.js';
 
 const DEFAULT_OUTPUT = 'accessibility-report.json';
 
 function printUsage() {
-  console.log(`Usage: testkit-a11y --config <path> [--output <path>] [--page <name>]
+  console.log(`Usage: testkit-a11y --config <path> [--output <path>] [--summary <path>] [--baseline <path>] [--page <name>]
 
 Options:
   -c, --config <path>   Path to the accessibility config module (required)
   -o, --output <path>   Path to write the JSON report to (default: ${DEFAULT_OUTPUT})
+  -s, --summary <path>  Also write scan totals (A11Y_SCANS, A11Y_FINDINGS_TOTAL) as a shell-sourceable file
+  -b, --baseline <path> Previous report to compare against; adds A11Y_FINDINGS_TOTAL_PREVIOUS to the summary
   -p, --page <name>     Only scan the page with this configured name
   -h, --help            Show this help message`);
 }
@@ -26,6 +29,8 @@ export async function main(argv = process.argv.slice(2)) {
     options: {
       config: { type: 'string', short: 'c' },
       output: { type: 'string', short: 'o' },
+      summary: { type: 'string', short: 's' },
+      baseline: { type: 'string', short: 'b' },
       page: { type: 'string', short: 'p' },
       help: { type: 'boolean', short: 'h' },
     },
@@ -85,17 +90,20 @@ export async function main(argv = process.argv.slice(2)) {
       {
         onPageScanned: ({ name, url, axeResults, preselectedCriteria }) => {
           index += 1;
-          const findingsCount = (axeResults.violations?.length ?? 0) + (axeResults.incomplete?.length ?? 0);
 
-          console.log(`[${index}/${totalScans}] ${name}`);
-          console.log(findingsCount ? `  \u2717 ${findingsCount} accessibility findings` : '  \u2713 scanned');
-
-          builder.addPage({
+          const page = builder.addPage({
             name,
             url,
             criterionStatuses: evaluateAxeResults(axeResults),
             preselectedCriteria,
           });
+          
+          // Counts the same unit as `countFindings()` (one per criterion error),
+          // so the per-page counts add up to the reported total.
+          const findingsCount = page.criteria.reduce((sum, criterion) => sum + criterion.errors.length, 0);
+
+          console.log(`[${index}/${totalScans}] ${name}`);
+          console.log(findingsCount ? `  \u2717 ${findingsCount} accessibility findings` : '  \u2713 scanned');
         },
       }
     );
@@ -104,9 +112,23 @@ export async function main(argv = process.argv.slice(2)) {
     return 1;
   }
 
-  await writeReport(builder.build(), outputPath);
+  const report = builder.build();
+  await writeReport(report, outputPath);
 
   console.log(`\nReport written to:\n${outputPath}`);
+
+  const findings = countFindings(report);
+  const previousFindings = values.baseline
+    ? await readBaselineFindings(path.resolve(process.cwd(), values.baseline))
+    : null;
+
+  if (values.summary) {
+    const summaryPath = path.resolve(process.cwd(), values.summary);
+    await writeSummary({ scans: totalScans, findings, previousFindings }, summaryPath);
+    console.log(`Summary written to:\n${summaryPath}`);
+  }
+
+  console.log(`\nTotal findings: ${findings}${previousFindings === null ? '' : ` (previous scan: ${previousFindings})`}`);
 
   // Exit code reflects whether the scan itself ran successfully, not
   // whether violations were found - check the report for findings.
