@@ -19,6 +19,7 @@ Components covered by the test utils:
 - `EmptyValueComponent`
 - `ExpanderComponent`
 - `FileUploaderComponent`
+- `FormComponent`
 - `IconComponent`
 - `InfoBoxComponent`
 - `InfoWrapperComponent`
@@ -28,9 +29,12 @@ Components covered by the test utils:
 - `NumberInputComponent`
 - `PersonDisplayComponent`
 - `RadioButtonComponent`
+- `RowComponent`
+- `SectionComponent`
 - `SkipLinkComponent`
 - `StateDisplayComponent`
 - `StepsComponent`
+- `TabControlComponent`
 - `TextAreaComponent`
 - `TextInputComponent`
 - `ToggleComponent`
@@ -409,6 +413,42 @@ page level through the component id.
 
 ---
 
+### `FormComponent`
+
+Use `FormComponent` for LX forms.
+
+**Component selector (data-component):** `lx-form`
+
+Rows from the default slot are placed in the built-in section with id `default`. Row ids are generated
+unless set, so give rows an `id` to look them up by id; otherwise look them up by position.
+
+**Available methods:**
+
+- `getRoot()` - returns the form component root **locator**.
+- `getHeader()` - returns the header **locator**. Not rendered for `showHeader = false` or `kind = 'stripped'`.
+- `getHeaderTitle()` - returns the header title **locator** (`header` slot).
+- `getPreHeader()` - returns the pre-header **locator** (`preHeader` slot).
+- `getPostHeader()` - returns the post-header **locator** (`postHeader` slot).
+- `getPreHeaderInfo()` - returns the pre-header info **component** (`InfoWrapperComponent`). Only with the `preHeaderInfo` slot and `showPreHeaderInfo`.
+- `getPostHeaderInfo()` - returns the post-header info **component** (`InfoWrapperComponent`). Only with the `postHeaderInfo` slot and `showPostHeaderInfo`.
+- `getFooter()` - returns the footer **locator**. Not rendered for `showFooter = false` or `kind = 'stripped'`.
+- `getAction(actionId)` - returns the action button **component** (`ButtonComponent`) from `actionDefinitions`.
+- `getFooterActions()` - returns a **locator** matching every action button in the footer (from `actionDefinitions`, including the wizard step buttons). The overflow menu button and buttons in the `footer` slot are not included. On narrow viewports some actions move to the overflow menu, and their footer buttons are hidden but still matched.
+- `getRows()` - returns a **locator** matching every row in the form.
+- `getRow({ id, n })` - returns the row **component** (`RowComponent`) by the `LxRow` id or zero-based index. _Async_.
+- `getSection(sectionId)` - returns the section **component** (`SectionComponent`) by the `LxSection` id.
+- `getIndex()` - returns the table of contents **locator** (the aside shown for `indexType = 'default'` with `index`). The form has a full and a small table of contents and shows one of them depending on the viewport width; this returns the one that is shown.
+- `getIndexItems()` - returns a **locator** matching every table of contents item.
+- `getIndexItem({ id, n })` - returns the table of contents item **locator** by the `index` item id (the section id) or zero-based index.
+- `getSelectedIndexItems()` - returns a **locator** matching the selected table of contents items (sections in view).
+- `getIndexMenu()` - returns the header menu **component** (`DropDownMenuComponent`) that holds the table of contents on the narrowest viewports. Without header actions it is a separate menu, otherwise the header actions menu. _Async_.
+- `getIndexMenuItems()` - returns a **locator** matching the table of contents items in the open header menu. The selected one has the `lx-active` class. _Async_.
+- `getTabControl()` - returns the tabs **component** (`TabControlComponent`) for `indexType = 'tabs'`.
+- `getWizardSteps()` - returns the wizard steps **component** (`StepsComponent`) for `indexType = 'wizard'`. The step buttons are `getAction('_lx_prev_step')` and `getAction('_lx_next_step')`.
+- `getSectionExpander(sectionId)` - returns the expander **component** (`ExpanderComponent`) that wraps the section for `indexType = 'expanders'`. The section itself is `getSection(sectionId)`.
+
+---
+
 ### `IconComponent`
 
 Use `IconComponent` for LX icons.
@@ -642,6 +682,45 @@ Use `RadioButtonComponent` for LX radio buttons.
 
 ---
 
+### `RowComponent`
+
+Use `RowComponent` for LX form rows.
+
+**Component selector (data-component):** `lx-row`
+
+**Available methods:**
+
+- `getRoot()` - returns the row component root **locator** (carries the `lx-row-column-*` and `lx-row-row-*` span classes).
+- `getHeader()` - returns the row header **locator**.
+- `getLabel()` - returns the row label **locator**.
+- `getContent()` - returns the row content **locator** (default slot).
+- `getActionButton({ id })` - returns the action button **component** (`ButtonComponent`) by action id, for a single action.
+- `getActionToggle({ id })` - returns the action toggle **component** (`ToggleComponent`) by action id, for a single action with `kind = 'toggle'`.
+- `getActionsMenu()` - returns the actions **component** (`DropDownMenuComponent`), for more than one action. _Async_.
+
+---
+
+### `SectionComponent`
+
+Use `SectionComponent` for LX form sections.
+
+**Component selector (data-component):** `lx-section`
+
+The section is found by `<form id>-<section id>`, so get it from `FormComponent.getSection(sectionId)`.
+
+**Available methods:**
+
+- `getRoot()` - returns the section component root **locator** (the grid that holds the rows).
+- `getHeader()` - returns the section header **locator**.
+- `getLabel()` - returns the section label **locator**.
+- `getDescription()` - returns the section description **locator**.
+- `getActionButton({ id })` - returns the action button **component** (`ButtonComponent`) by action id, for a single action. Only for `indexType = 'default'` or `'none'`: with `'expanders'` the actions are in the expander header, and with `'tabs'` or `'wizard'` the section header is hidden (tabs show the actions in the tab header, the wizard does not show them).
+- `getActionsMenu()` - returns the actions **component** (`DropDownMenuComponent`), for more than one action. Same `indexType` limits as `getActionButton`. _Async_.
+- `getRows()` - returns a **locator** matching every row in the section.
+- `getRow({ id, n })` - returns the row **component** (`RowComponent`) by the `LxRow` id or zero-based index. _Async_.
+
+---
+
 ### `SkipLinkComponent`
 
 Use `SkipLinkComponent` for LX skip links.
@@ -688,6 +767,25 @@ Use `StepsComponent` for LX steps.
 - `getFilledSlider()` - returns the filled slider **locator**.
 - `getFullSlider()` - returns the full slider **locator**.
 
+
+---
+
+### `TabControlComponent`
+
+Use `TabControlComponent` for LX tab controls, such as the tabs of a form with `indexType = 'tabs'`
+(`FormComponent.getTabControl()`).
+
+**Component selector (data-component):** `lx-tab-control`
+
+**Available methods:**
+
+- `getRoot()` - returns the tab control component root **locator**.
+- `getItems()` - returns a **locator** matching every tab item.
+- `getItem({ id, n })` - returns the tab item **locator** by item id or zero-based index.
+- `getSelectedItem()` - returns the selected tab item **locator**.
+- `getPreviousButton()` - returns the previous tab button **component** (`ButtonComponent`).
+- `getNextButton()` - returns the next tab button **component** (`ButtonComponent`).
+- `getDropdown()` - returns the dropdown **component** (`ValuePickerComponent`) that replaces the tabs on narrow viewports, only when the tabs have no icons.
 
 ---
 
